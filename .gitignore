@@ -1,0 +1,16 @@
+*.class
+*.pyc
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+#idea files
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/*.*
+.idea
+*.iml
+
+*.ipynb_*
