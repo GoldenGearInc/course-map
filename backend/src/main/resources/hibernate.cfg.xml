@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/course-map</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password"></property>
+        <property name="hbm2ddl.auto">update</property>
+
+        <mapping class="com.se34.coursemap.entity.Comment"></mapping>
+        <mapping class="com.se34.coursemap.entity.Institute"></mapping>
+        <mapping class="com.se34.coursemap.entity.Lecturer"></mapping>
+        <mapping class="com.se34.coursemap.entity.Role"></mapping>
+        <mapping class="com.se34.coursemap.entity.Specialty"></mapping>
+        <mapping class="com.se34.coursemap.entity.Subject"></mapping>
+        <mapping class="com.se34.coursemap.entity.Student"></mapping>
+    </session-factory>
+</hibernate-configuration>
