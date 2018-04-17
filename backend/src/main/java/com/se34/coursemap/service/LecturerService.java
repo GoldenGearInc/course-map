@@ -6,12 +6,7 @@ import java.util.List;
 
 public interface LecturerService {
     Lecturer add(Lecturer lecturer);
-
     void delete(Lecturer lecturer);
-
     Lecturer edit(Lecturer lecturer);
-
     List<Lecturer> getAll();
-
-    Lecturer getByFullName(String firstName, String lastName, String middleName);
 }

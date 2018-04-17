@@ -4,7 +4,9 @@ import com.se34.coursemap.entity.Subject;
 import com.se34.coursemap.repository.SubjectRepository;
 import com.se34.coursemap.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SubjectServiceImpl implements SubjectService {
 
     @Autowired

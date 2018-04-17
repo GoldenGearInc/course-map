@@ -4,7 +4,9 @@ import com.se34.coursemap.entity.Role;
 import com.se34.coursemap.repository.RoleRepository;
 import com.se34.coursemap.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired

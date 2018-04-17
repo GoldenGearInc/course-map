@@ -4,9 +4,11 @@ import com.se34.coursemap.entity.Institute;
 import com.se34.coursemap.repository.InstituteRepository;
 import com.se34.coursemap.service.InstituteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class InstituteServiceImpl implements InstituteService {
 
     @Autowired
@@ -32,10 +34,5 @@ public class InstituteServiceImpl implements InstituteService {
     @Override
     public List<Institute> getAll() {
         return instituteRepository.findAll();
-    }
-
-    @Override
-    public Institute getByName(String name) {
-        return instituteRepository.findByName(name);
     }
 }

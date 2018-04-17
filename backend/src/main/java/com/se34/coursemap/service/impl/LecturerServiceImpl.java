@@ -4,9 +4,11 @@ import com.se34.coursemap.entity.Lecturer;
 import com.se34.coursemap.repository.LecturerRepository;
 import com.se34.coursemap.service.LecturerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class LecturerServiceImpl implements LecturerService {
 
     @Autowired
@@ -34,8 +36,4 @@ public class LecturerServiceImpl implements LecturerService {
         return lecturerRepository.findAll();
     }
 
-    @Override
-    public Lecturer getByFullName(String firstName, String lastName, String middleName) {
-        return lecturerRepository.findByFirstNameAndLastNameAndMiddleName(firstName, lastName, middleName);
-    }
 }
