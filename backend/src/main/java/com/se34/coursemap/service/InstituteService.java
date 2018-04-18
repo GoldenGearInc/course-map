@@ -6,8 +6,13 @@ import java.util.List;
 
 public interface InstituteService {
 
-    Institute add(Institute institute);
-    void delete(Institute institute);
-    Institute edit(Institute institute);
-    List<Institute> getAll();
+    void addInstitute(Institute institute);
+
+    void deleteInstitute(int id);
+
+    void editInstitute(Institute institute);
+
+    List<Institute> getAllInstitute();
+
+    Institute getInstitute(int id);
 }

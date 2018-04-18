@@ -9,18 +9,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleServiceImpl implements RoleService {
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Override
-    public Role add(Role role) {
-        Role savedRole = roleRepository.saveAndFlush(role);
-
-        return role;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Override
-    public void delete(Role role) {
-        roleRepository.delete(role);
+    public void addRole(Role role) {
+        roleRepository.saveAndFlush(role);
+    }
+
+    @Override
+    public void deleteRole(int id) {
+        roleRepository.deleteById(id);
+    }
+
+    @Override
+    public Role getRole(int id) {
+        return roleRepository.getOne(id);
+    }
+
+    @Override
+    public void editRole(Role role) {
+        roleRepository.saveAndFlush(role);
     }
 }

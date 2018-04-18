@@ -11,28 +11,35 @@ import java.util.List;
 @Service
 public class InstituteServiceImpl implements InstituteService {
 
+    private final InstituteRepository instituteRepository;
+
     @Autowired
-    private InstituteRepository instituteRepository;
-
-    @Override
-    public Institute add(Institute institute) {
-        Institute savedInstitute = instituteRepository.saveAndFlush(institute);
-
-        return savedInstitute;
+    public InstituteServiceImpl(InstituteRepository instituteRepository) {
+        this.instituteRepository = instituteRepository;
     }
 
     @Override
-    public void delete(Institute institute) {
-        instituteRepository.delete(institute);
+    public void addInstitute(Institute institute) {
+        instituteRepository.saveAndFlush(institute);
     }
 
     @Override
-    public Institute edit(Institute institute) {
-        return instituteRepository.saveAndFlush(institute);
+    public void deleteInstitute(int id) {
+        instituteRepository.deleteById(id);
     }
 
     @Override
-    public List<Institute> getAll() {
+    public void editInstitute(Institute institute) {
+        instituteRepository.saveAndFlush(institute);
+    }
+
+    @Override
+    public List<Institute> getAllInstitute() {
         return instituteRepository.findAll();
+    }
+
+    @Override
+    public Institute getInstitute(int id) {
+        return instituteRepository.getOne(id);
     }
 }

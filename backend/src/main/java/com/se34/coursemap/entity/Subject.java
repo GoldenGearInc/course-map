@@ -1,5 +1,6 @@
 package com.se34.coursemap.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "subject")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Subject {
 
     @Id
