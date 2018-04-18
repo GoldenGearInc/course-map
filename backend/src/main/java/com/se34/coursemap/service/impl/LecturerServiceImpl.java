@@ -11,29 +11,36 @@ import java.util.List;
 @Service
 public class LecturerServiceImpl implements LecturerService {
 
+    private final LecturerRepository lecturerRepository;
+
     @Autowired
-    private LecturerRepository lecturerRepository;
-
-    @Override
-    public Lecturer add(Lecturer lecturer) {
-        Lecturer savedLecturer = lecturerRepository.saveAndFlush(lecturer);
-
-        return savedLecturer;
+    public LecturerServiceImpl(LecturerRepository lecturerRepository) {
+        this.lecturerRepository = lecturerRepository;
     }
 
     @Override
-    public void delete(Lecturer lecturer) {
-        lecturerRepository.delete(lecturer);
+    public void addLecture(Lecturer lecturer) {
+        lecturerRepository.saveAndFlush(lecturer);
     }
 
     @Override
-    public Lecturer edit(Lecturer lecturer) {
-        return lecturerRepository.saveAndFlush(lecturer);
+    public void deleteLecture(int id) {
+        lecturerRepository.deleteById(id);
     }
 
     @Override
-    public List<Lecturer> getAll() {
+    public void editLecture(Lecturer lecturer) {
+        lecturerRepository.saveAndFlush(lecturer);
+    }
+
+    @Override
+    public List<Lecturer> getAllLecture() {
         return lecturerRepository.findAll();
+    }
+
+    @Override
+    public Lecturer getLecture(int id) {
+        return lecturerRepository.getOne(id);
     }
 
 }

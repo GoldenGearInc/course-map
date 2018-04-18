@@ -5,8 +5,13 @@ import com.se34.coursemap.entity.Lecturer;
 import java.util.List;
 
 public interface LecturerService {
-    Lecturer add(Lecturer lecturer);
-    void delete(Lecturer lecturer);
-    Lecturer edit(Lecturer lecturer);
-    List<Lecturer> getAll();
+    void addLecture(Lecturer lecturer);
+
+    void deleteLecture(int id);
+
+    void editLecture(Lecturer lecturer);
+
+    List<Lecturer> getAllLecture();
+
+    Lecturer getLecture(int id);
 }

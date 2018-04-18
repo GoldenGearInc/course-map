@@ -1,10 +1,14 @@
 package com.se34.coursemap.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "specialty")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Specialty {
 
     @Id
@@ -50,6 +54,7 @@ public class Specialty {
         this.description = description;
     }
 
+    @JsonIgnore
     public Institute getInstitute() {
         return institute;
     }
@@ -58,6 +63,7 @@ public class Specialty {
         this.institute = institute;
     }
 
+    @JsonIgnore
     public Set<Subject> getSubjects() {
         return subjects;
     }

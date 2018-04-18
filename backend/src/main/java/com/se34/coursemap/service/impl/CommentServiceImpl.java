@@ -1,32 +1,41 @@
 package com.se34.coursemap.service.impl;
 
 import com.se34.coursemap.entity.Comment;
-import com.se34.coursemap.service.CommentService;
 import com.se34.coursemap.repository.CommentRepository;
+import com.se34.coursemap.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 
+    private final CommentRepository commentRepository;
+
     @Autowired
-    private CommentRepository commentRepository;
-
-    @Override
-    public Comment add(Comment comment) {
-        Comment savedComment = commentRepository.saveAndFlush(comment);
-
-        return savedComment;
+    public CommentServiceImpl(CommentRepository commentRepository) {
+        this.commentRepository = commentRepository;
     }
 
     @Override
-    public void delete(Comment comment) {
-        commentRepository.delete(comment);
+    public void addComment(Comment comment) {
+        commentRepository.saveAndFlush(comment);
     }
 
     @Override
-    public Comment edit(Comment comment) {
-        return commentRepository.saveAndFlush(comment);
+    public void deleteComment(int id) {
+        commentRepository.deleteById(id);
+    }
+
+
+    @Override
+    public List<Comment> getAllComments() {
+        return null;
+    }
+
+    @Override
+    public Comment getComment(int id) {
+        return null;
     }
 }

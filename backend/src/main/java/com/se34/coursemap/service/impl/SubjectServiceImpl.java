@@ -6,26 +6,40 @@ import com.se34.coursemap.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
+    private final SubjectRepository subjectRepository;
+
     @Autowired
-    private SubjectRepository subjectRepository;
-
-    @Override
-    public Subject add(Subject subject) {
-        Subject savedSubject = subjectRepository.saveAndFlush(subject);
-
-        return savedSubject;
+    public SubjectServiceImpl(SubjectRepository subjectRepository) {
+        this.subjectRepository = subjectRepository;
     }
 
     @Override
-    public void delete(Subject subject) {
-        subjectRepository.delete(subject);
+    public void addSubject(Subject subject) {
+        subjectRepository.saveAndFlush(subject);
     }
 
     @Override
-    public Subject edit(Subject subject) {
-        return subjectRepository.saveAndFlush(subject);
+    public void deleteSubject(int id) {
+        subjectRepository.deleteById(id);
+    }
+
+    @Override
+    public void editSubject(Subject subject) {
+        subjectRepository.saveAndFlush(subject);
+    }
+
+    @Override
+    public List<Subject> getAllSubject() {
+        return subjectRepository.findAll();
+    }
+
+    @Override
+    public Subject getSubject(int id) {
+        return subjectRepository.getOne(id);
     }
 }
