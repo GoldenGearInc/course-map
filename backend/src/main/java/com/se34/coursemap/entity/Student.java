@@ -1,6 +1,6 @@
 package com.se34.coursemap.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,6 +8,9 @@ import java.util.Set;
 @Entity
 @Table(name = "student")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+/*@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "studentId")*/
 public class Student {
 
     @Id
@@ -44,6 +47,7 @@ public class Student {
             name = "studentSubject",
             joinColumns = {@JoinColumn(name = "studentId", referencedColumnName = "studentId"),},
             inverseJoinColumns = {@JoinColumn(name = "subjectId", referencedColumnName = "subjectId")})
+    @JsonIgnore
     private Set<Subject> subjects;
 
     public Student(){}

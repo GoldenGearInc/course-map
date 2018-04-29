@@ -1,9 +1,18 @@
 package com.se34.coursemap.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "comment")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+/*@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "commentId")*/
 public class Comment {
 
     @Id
@@ -15,10 +24,12 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "studentId")
+    @JsonIgnore
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "subjectId")
+    @JsonIgnore
     private Subject subject;
 
     public Comment() { }

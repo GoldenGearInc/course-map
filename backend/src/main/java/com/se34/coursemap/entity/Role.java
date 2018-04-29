@@ -1,6 +1,6 @@
 package com.se34.coursemap.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -8,6 +8,9 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+/*@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "roleId")*/
 public class Role {
 
     @Id
@@ -18,6 +21,7 @@ public class Role {
     private String role;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Student> students;
 
     public Role(){ }

@@ -1,6 +1,6 @@
 package com.se34.coursemap.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.Check;
 
 import javax.persistence.*;
@@ -9,6 +9,9 @@ import java.util.Set;
 @Entity
 @Table(name = "subject")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+/*@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "subjectId")*/
 public class Subject {
 
     @Id
@@ -17,6 +20,9 @@ public class Subject {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
+
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "course", nullable = false)
     @Check(constraints = "course >= 1 AND course <=5")
@@ -31,12 +37,15 @@ public class Subject {
     private Specialty specialty;
 
     @ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Lecturer> lecturers;
 
     @ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Student> students;
 
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Comment> comments;
 
     public Subject() { }
@@ -103,6 +112,14 @@ public class Subject {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 

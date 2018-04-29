@@ -3,6 +3,7 @@ package com.se34.coursemap.service.impl;
 import com.se34.coursemap.entity.Subject;
 import com.se34.coursemap.repository.SubjectRepository;
 import com.se34.coursemap.service.SubjectService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,20 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Subject getSubject(int id) {
         return subjectRepository.getOne(id);
+    }
+
+    @Override
+    public List<Subject> findAllBySpecialtyNameAndCourse(String specialtyName, int course) {
+        return subjectRepository.findAllBySpecialtyNameAndCourse(specialtyName,course);
+    }
+
+    @Override
+    public List<Subject> findAllBySpecialtyName(String specialtyName) {
+        return subjectRepository.findAllBySpecialtyName(specialtyName);
+    }
+
+    @Override
+    public List<Subject> findAllByCourse(int course) {
+        return subjectRepository.findAllByCourse(course);
     }
 }

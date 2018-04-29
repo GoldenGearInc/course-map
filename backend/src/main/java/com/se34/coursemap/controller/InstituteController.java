@@ -1,12 +1,16 @@
 package com.se34.coursemap.controller;
 
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
 import com.se34.coursemap.entity.Institute;
 import com.se34.coursemap.service.InstituteService;
 import com.se34.coursemap.utill.CustomErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -46,12 +50,12 @@ public class InstituteController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> createInstitute(@RequestBody Institute institute, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createInstitute( @RequestBody Institute institute, UriComponentsBuilder ucBuilder) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, institute.getName() + " ," + institute.getInstituteId());
-       /* if (instituteService.getInstitute(institute.getInstituteId()) != null) {
+        if (instituteService.getInstitute(institute.getInstituteId()) != null) {
             return new ResponseEntity(new CustomErrorType("Unable to create. A Institute with name " +
                     institute.getName() + " already exist."), HttpStatus.CONFLICT);
-        }*/
+        }
         instituteService.addInstitute(institute);
 
         HttpHeaders headers = new HttpHeaders();
@@ -61,6 +65,7 @@ public class InstituteController {
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Institute> updateInstitute(@PathVariable("id") int id, @RequestBody Institute institute) {
+
 
         Institute currentInstitute = instituteService.getInstitute(id);
 

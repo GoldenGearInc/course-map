@@ -14,4 +14,12 @@ public interface SubjectService {
     List<Subject> getAllSubject();
 
     Subject getSubject(int id);
+
+    List<Subject> findAllBySpecialtyNameAndCourse(String specialtyName, int course);
+
+    List<Subject> findAllBySpecialtyName(String specialtyName);
+
+    List<Subject> findAllByCourse(int course);
+
+
 }

@@ -9,9 +9,9 @@ import java.util.Set;
 @Entity
 @Table(name = "specialty")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "specialtyId")
+        property = "specialtyId")*/
 public class Specialty {
 
     @Id
@@ -29,6 +29,7 @@ public class Specialty {
     private Institute institute;
 
     @OneToMany(mappedBy = "specialty", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Subject> subjects;
 
     public Specialty() { }
@@ -57,7 +58,7 @@ public class Specialty {
         this.description = description;
     }
 
-    //@JsonIgnore
+    @JsonIgnore
     public Institute getInstitute() {
         return institute;
     }
@@ -66,7 +67,7 @@ public class Specialty {
         this.institute = institute;
     }
 
-    //@JsonIgnore
+    @JsonBackReference
     public Set<Subject> getSubjects() {
         return subjects;
     }
