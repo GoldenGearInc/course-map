@@ -1,11 +1,17 @@
 package com.se34.coursemap.security.model;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class JwtAuthenticationRequest implements Serializable {
 
-
+    @NotNull
+    @NotEmpty
     private String username;
+
+    @NotNull
+    @NotEmpty
     private String password;
 
     public JwtAuthenticationRequest() {

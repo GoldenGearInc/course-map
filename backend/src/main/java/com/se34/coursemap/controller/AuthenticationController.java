@@ -1,20 +1,20 @@
 package com.se34.coursemap.controller;
 
-import com.se34.coursemap.entity.Role;
 import com.se34.coursemap.entity.Student;
 import com.se34.coursemap.security.model.JwtAuthenticationRequest;
 import com.se34.coursemap.security.model.JwtAuthenticationResponse;
 import com.se34.coursemap.security.JwtUser;
-import com.se34.coursemap.security.model.UserRegistrationRequest;
+import com.se34.coursemap.security.model.UserRegisterDTO;
 import com.se34.coursemap.service.StudentService;
 import com.se34.coursemap.utill.AuthenticationException;
+import com.se34.coursemap.utill.EmailExistsException;
 import com.se34.coursemap.utill.JwtTokenUtil;
+import com.se34.coursemap.utill.UsernameExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -54,7 +55,7 @@ public class AuthenticationController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody @Valid  JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -70,28 +71,15 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> createNewUser(@RequestBody UserRegistrationRequest registrationRequest) {
+    public ResponseEntity<?> createNewUser(@RequestBody @Valid UserRegisterDTO registrationRequest) {
 
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, registrationRequest.toString());
-        if(!registrationRequest.getPassword().equals(registrationRequest.getRepeatPassword()))
-            return ResponseEntity.badRequest().body("Password and repeat password does not match");
-        /*if(studentService.findByLogin(registrationRequest.getUsername())!=null)
-            return ResponseEntity.badRequest().body("This username already taken");
-*/
-        Student newUser = new Student();
-        newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        newUser.setLogin(registrationRequest.getUsername());
-        newUser.setFirstName(registrationRequest.getFirstName());
-        newUser.setLastName(registrationRequest.getLastName());
-        newUser.setEmail(registrationRequest.getEmail());
-        newUser.setEnabled(true);
-        newUser.setLastPasswordResetDate(new Date());
-        //Role role = new Role();
-        //role.setRole("student");
-        //newUser.setRole(role);
-
-        studentService.addStudent(newUser);
-        return new ResponseEntity<Student>(newUser,HttpStatus.CREATED);
+        registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        Student newUser = createUserAccount(registrationRequest);
+        if(newUser!=null)
+            return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
@@ -125,6 +113,16 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Bad credentials!", e);
         }
+    }
+
+    private Student createUserAccount(UserRegisterDTO accountDto) {
+        Student registered = null;
+        try {
+            registered = studentService.registerNewUserAccount(accountDto);
+        } catch (EmailExistsException | UsernameExistsException e) {
+            return null;
+        }
+        return registered;
     }
 
 
