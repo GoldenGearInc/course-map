@@ -1,19 +1,43 @@
 package com.se34.coursemap.security.model;
 
+import com.se34.coursemap.security.validator.PasswordMatches;
+import com.se34.coursemap.security.validator.ValidEmail;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class UserRegistrationRequest implements Serializable {
+@PasswordMatches
+public class UserRegisterDTO implements Serializable {
 
+    @NotNull
+    @NotEmpty
     private String username;
+
+    @NotNull
+    @NotEmpty
+    @ValidEmail
     private String email;
+
+    @NotNull
+    @NotEmpty
     private String firstName;
+
+    @NotNull
+    @NotEmpty
     private String lastName;
+
+    @NotNull
+    @NotEmpty
     private String password;
+
+    @NotNull
+    @NotEmpty
     private String repeatPassword;
 
-    public UserRegistrationRequest(){super();}
+    public UserRegisterDTO(){super();}
 
-    public UserRegistrationRequest(String username, String email, String firstName, String lastName, String password, String repeatPassword) {
+    public UserRegisterDTO(String username, String email, String firstName, String lastName, String password, String repeatPassword) {
         this.username = username;
         this.email = email;
         this.firstName = firstName;
@@ -72,7 +96,7 @@ public class UserRegistrationRequest implements Serializable {
 
     @Override
     public String toString() {
-        return "UserRegistrationRequest{" +
+        return "UserRegisterDTO{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
