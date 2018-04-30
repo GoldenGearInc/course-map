@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -110,6 +111,7 @@ public class SubjectController {
     }
 
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createSubject(@RequestBody Subject subject, UriComponentsBuilder ucBuilder) {
         subjectService.addSubject(subject);
@@ -119,6 +121,7 @@ public class SubjectController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Subject> updateSubject(@PathVariable("id") int id, @RequestBody Subject subject) {
 
@@ -141,6 +144,7 @@ public class SubjectController {
         return new ResponseEntity<>(currentSubject, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Subject> deleteSubject(@PathVariable("id") int id) {
 

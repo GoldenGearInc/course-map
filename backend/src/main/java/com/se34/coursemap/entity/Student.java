@@ -3,6 +3,8 @@ package com.se34.coursemap.entity;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -34,6 +36,15 @@ public class Student {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "enabled")
+    @NotNull
+    private Boolean enabled;
+
+    @Column(name = "lastPasswordResetDate")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date lastPasswordResetDate;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
     private Set<Comment> comments;
@@ -130,5 +141,21 @@ public class Student {
 
     public void setSubjects(Set<Subject> subjectList) {
         this.subjects = subjectList;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 }

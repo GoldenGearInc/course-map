@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,6 +40,7 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('student')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createComment(@RequestBody Comment comment, UriComponentsBuilder ucBuilder) {
 
@@ -49,7 +51,7 @@ public class CommentController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('student','admin')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Comment> deleteComment(@PathVariable("id") int id) {
 

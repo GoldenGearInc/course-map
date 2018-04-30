@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -43,6 +44,7 @@ public class LectureController {
         return new ResponseEntity<>(lecture, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createLecturer(@RequestBody Lecturer lecturer, UriComponentsBuilder ucBuilder) {
         lecturerService.addLecture(lecturer);
@@ -52,6 +54,7 @@ public class LectureController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Lecturer> updateLecturer(@PathVariable("id") int id, @RequestBody Lecturer lecturer) {
 
@@ -73,6 +76,7 @@ public class LectureController {
         return new ResponseEntity<>(currentLecture, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Institute> deleteLecturer(@PathVariable("id") int id) {
 

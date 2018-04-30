@@ -15,4 +15,6 @@ public interface StudentService {
 
     List<Student> getAllStudent();
 
+    Student findByLogin(String login);
+
 }

@@ -12,9 +12,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +51,7 @@ public class InstituteController {
         return new ResponseEntity<>(institute, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createInstitute( @RequestBody Institute institute, UriComponentsBuilder ucBuilder) {
         Logger.getLogger(this.getClass().getName()).log(Level.INFO, institute.getName() + " ," + institute.getInstituteId());
@@ -63,6 +66,7 @@ public class InstituteController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Institute> updateInstitute(@PathVariable("id") int id, @RequestBody Institute institute) {
 
@@ -81,6 +85,7 @@ public class InstituteController {
         return new ResponseEntity<>(currentInstitute, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Institute> deleteInstitute(@PathVariable("id") int id) {
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -42,7 +43,7 @@ public class SpecialityController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> createSpecialty(@RequestBody Specialty specialty, UriComponentsBuilder ucBuilder) {
 
@@ -53,4 +54,38 @@ public class SpecialityController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Specialty> updateSpecialty(@PathVariable("id") int id, @RequestBody Specialty specialty) {
+
+        Specialty currentSpecialty = specialtyService.getSpecialty(id);
+
+        if (currentSpecialty == null) {
+            return new ResponseEntity(new CustomErrorType("Unable to update. Specialty with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+
+        currentSpecialty.setName(specialty.getName());
+        currentSpecialty.setDescription(specialty.getDescription());
+        currentSpecialty.setInstitute(specialty.getInstitute());
+        currentSpecialty.setSpecialtyId(specialty.getSpecialtyId());
+        currentSpecialty.setSubjects(specialty.getSubjects());
+
+        specialtyService.editSpecialty(currentSpecialty);
+        return new ResponseEntity<>(currentSpecialty, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Specialty> deleteSpecialty(@PathVariable("id") int id) {
+
+        Specialty specialty = specialtyService.getSpecialty(id);
+        if (specialty == null) {
+            return new ResponseEntity(new CustomErrorType("Unable to delete. Specialty with id " + id + " not found."),
+                    HttpStatus.NOT_FOUND);
+        }
+        specialtyService.deleteSpecialty(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
+
