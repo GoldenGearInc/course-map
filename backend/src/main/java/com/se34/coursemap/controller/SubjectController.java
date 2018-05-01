@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/subject")
@@ -60,36 +62,29 @@ public class SubjectController {
         RecommendationResult recommendationResult = new RecommendationResult();
         Subject subject = subjectService.getSubject(id);
 
+        HttpResponse<JsonNode> postResponse = null;
         try {
-            HttpResponse<JsonNode> postResponse = Unirest.post("")
+            postResponse= Unirest.post("http://127.0.0.1:5000/recommend")
                     .header("accept", "application/json")
                     .header("Content-Type", "application/json")
-                    .field("description",subject.getDescription())
-                    .field("title",subject.getName())
-                    .asJson();
+                    .body("{\"title\":\"Бази даних\"}").asJson();
         } catch (UnirestException e) {
             e.printStackTrace();
         }
 
 
-
-        HttpResponse<JsonNode> getResponse = null;
+        JSONArray jsonArray = null;
         try {
-            getResponse = Unirest.get("")
-                    .header("accept", "application/json")
-                    .asJson();
-        } catch (UnirestException e) {
+            jsonArray = postResponse.getBody().getObject().getJSONArray("recommended_info");
+        } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        JSONArray jsonArray = getResponse.getBody().getArray();
         try {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                     recommendationResult
                             .getRecommendationInfoArrayList()
-                            .add(new RecommendationInfo(jsonObject.getString("url"),jsonObject.getString("url")));
+                            .add(new RecommendationInfo(jsonObject.getString("url"),jsonObject.getString("title")));
 
             }
         } catch (JSONException e) {
