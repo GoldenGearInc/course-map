@@ -69,15 +69,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**","/institute/**","/specialty/**","/comment/**","/lecture/**","/subject/**").permitAll()
                 .anyRequest().authenticated();
 
-        // Custom JWT based security filter
+
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         httpSecurity
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // disable page caching
         httpSecurity
                 .headers()
-                .frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
+                .frameOptions().sameOrigin()
                 .cacheControl();
     }
 

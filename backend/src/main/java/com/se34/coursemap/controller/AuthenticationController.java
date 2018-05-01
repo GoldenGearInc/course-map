@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,25 +54,19 @@ public class AuthenticationController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody @Valid  JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
-
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody @Valid  JwtAuthenticationRequest authenticationRequest)  {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        // Reload password post-security so we can generate the token
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
-        Logger.getLogger(this.getClass().getName()).log(Level.INFO, userDetails.getAuthorities().toString());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-
-        // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<?> createNewUser(@RequestBody @Valid UserRegisterDTO registrationRequest) {
 
-        Logger.getLogger(this.getClass().getName()).log(Level.INFO, registrationRequest.toString());
         registrationRequest.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         Student newUser = createUserAccount(registrationRequest);
         if(newUser!=null)

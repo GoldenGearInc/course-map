@@ -1,17 +1,23 @@
 package com.se34.coursemap.security.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class JwtAuthenticationRequest implements Serializable {
+//@JsonAutoDetect
+public class JwtAuthenticationRequest implements Serializable{
 
     @NotNull
     @NotEmpty
+    //@JsonProperty("username")
     private String username;
 
     @NotNull
     @NotEmpty
+    //@JsonProperty("password")
     private String password;
 
     public JwtAuthenticationRequest() {
