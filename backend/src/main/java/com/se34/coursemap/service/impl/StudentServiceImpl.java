@@ -2,6 +2,7 @@ package com.se34.coursemap.service.impl;
 
 import com.se34.coursemap.entity.Role;
 import com.se34.coursemap.entity.Student;
+import com.se34.coursemap.entity.Subject;
 import com.se34.coursemap.repository.StudentRepository;
 import com.se34.coursemap.security.model.UserRegisterDTO;
 import com.se34.coursemap.service.StudentService;
@@ -79,6 +80,8 @@ public class StudentServiceImpl implements StudentService{
         addStudent(newUser);
         return newUser;
     }
+
+
 
     private boolean emailExist(String email) {
         Student user = studentRepository.findByEmail(email);
